@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Ex 16 - Event Handling with jQuery</title>
+	<meta charset="utf-8" />
+
+    <!--Set attributes of view port-->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--Link to bootstrap.css file-->
+    <link rel="stylesheet" href="bootstrap.css" />
+
+    <!--Link to jQuery code library-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <script>
+        //--------------------------------------------------------------------------
+        // name: ready()
+        //--------------------------------------------------------------------------
+        $(document).ready(function () {
+
+            console.log("ready() function called!");
+
+            //Wire up button event handlers
+            $("#butDisplay").on("click", calculateBill);
+
+        });
+
+
+
+        //--------------------------------------------------------------------------
+        // name: calculateBill()
+        //--------------------------------------------------------------------------
+        function calculateBill() {
+            console.log("calculateBill() function is called!");
+
+            //1. Declare Variables
+            var billAmount,
+                peopleSplit,
+                extraForGoodService,
+                tipRate,
+                tipAmount,
+                totalBill,
+                individualShare;
+
+
+            //2. Get Values
+            billAmount = document.getElementById("txtBillAmount").value;
+            console.log("billAmount = " + billAmount);
+
+                //Input Validation
+                    //Check for Missing Input Value
+                    if (billAmount === "") {
+                        alert("Please include a Bill Amount!");
+                        document.getElementById("txtBillAmount").focus();
+                        return;
+                    }
+
+                    //Check for Non-numeric Input Value
+                    if (isNaN(billAmount)) {
+                        alert("The Bill Amount must be a number.");
+                        document.getElementById("txtBillAmount").focus();
+                        return;
+                    }
+
+            peopleSplit = document.getElementById("txtPeopleSplit").value;
+            console.log("peopleSplit = " + peopleSplit);
+
+                //Input Validation
+                    //Check for Missing Input Value
+                    if (peopleSplit === "") {
+                        alert("Please include a Number of People Splitting Bill!");
+                        document.getElementById("txtPeopleSplit").focus();
+                        return;
+                    }
+
+                    //Check for Non-numeric Input Value
+                    if (isNaN(peopleSplit)) {
+                        alert("The Number of People Splitting Bill must be a number.");
+                        document.getElementById("txtPeopleSplit").focus();
+                        return;
+                    }
+
+            extraForGoodService = document.getElementById("chkExtra").checked;
+            console.log("exrtaForGoodService = " + extraForGoodService);
+
+            billAmount = parseFloat(billAmount);
+            peopleSplit = parseFloat(peopleSplit);
+            tipRate = parseFloat(tipRate);
+            totalBill = parseFloat(totalBill);
+            individualShare = parseFloat(individualShare);
+
+
+            //3. Calculations
+            if (extraForGoodService == true) {
+                tipRate = .20;
+            }
+            else {
+                tipRate = .15;
+            }
+            console.log("tipRate = " + tipRate);
+
+            tipAmount = billAmount * tipRate;
+            console.log("tipAmount = " + tipAmount);
+
+            totalBill = billAmount + tipAmount;
+            console.log("totalBill = " + totalBill);
+
+            individualShare = totalBill / peopleSplit;
+            console.log("individualShare = " + individualShare);
+
+
+            //4. Display Results
+            document.getElementById("divTotalBill").innerHTML = "Total Bill: <b>" + totalBill + "<b>";
+            document.getElementById("divIndividualShare").innerHTML = "Individual Share: <b>" + individualShare + "<b>";
+
+        }
+
+    </script>
+
+</head>
+<body data-pinterest-extension-installed="cr2.0.5">
+    <!--Container-->
+    <div class="container">
+        
+        <!--Jumbotron-->
+        <div class="jumbotron">
+            <h1>Exercise 16 - Event Handling with jQuery</h1>
+        </div>
+
+        <form name="frmInput">
+            <!--Text Box-->
+            <div class="form-group">
+                <label for="txtBillAmount">Bill Amount</label>
+                <input type="text"
+                       class="form-control"
+                       id="txtBillAmount"
+                       placeholder="Enter amount"
+                       value="" />
+            </div>
+
+            <div class="form-group">
+                <label for="txtPeopleSplit">Number of People Splitting Bill</label>
+                <input type="text"
+                       class="form-control"
+                       id="txtPeopleSplit"
+                       placeholder="Enter number of people"
+                       value="" />
+            </div>
+
+
+            <!--Check Box-->
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"
+                           id="chkExtra" />
+                    Extra 5% for Good Service
+                </label>
+            </div>
+
+
+            <!--Button-->
+            <button type="button" id="butDisplay" class="btn">
+                Display Results
+            </button>
+
+            <!--Display Results-->
+            <h3 class="text-primary" id="divTotalBill"></h3>
+            <h3 class="text-primary" id="divIndividualShare"></h3>
+
+        </form>
+
+    </div>
+</body>
+</html>
